@@ -69,7 +69,7 @@ jobs:
                           type: "commit",
                           owner: context.repo.owner,
                           repo: context.repo.repo,
-                          tag: "${{steps.semver.outputs.value-value-nopatch}}",
+                          tag: "${{steps.semver.outputs.value-nopatch}}",
                           message: "semver without patch update",
                           object: context.sha,
                           tagger: {

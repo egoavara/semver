@@ -43,8 +43,8 @@ jobs:
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               with:
-                  tag_name: ${{ steps.semver.outputs.current }}
-                  release_name: "Release ${{ steps.semver.outputs.current }} : ${{ github.event.inputs.title }}"
+                  tag_name: ${{ steps.semver.outputs.value }}
+                  release_name: "Release ${{ steps.semver.outputs.value }} : ${{ github.event.inputs.title }}"
                   body: ${{ github.event.inputs.body }}
                   draft: true
             - uses: actions/github-script@v6
@@ -54,7 +54,7 @@ jobs:
                           type: "commit",
                           owner: context.repo.owner,
                           repo: context.repo.repo,
-                          tag: "${{steps.semver.outputs.current-minor}}",
+                          tag: "${{steps.semver.outputs.value-nominor}}",
                           message: "semver without patch update",
                           object: context.sha,
                           tagger: {
@@ -67,7 +67,7 @@ jobs:
                           type: "commit",
                           owner: context.repo.owner,
                           repo: context.repo.repo,
-                          tag: "${{steps.semver.outputs.current-major}}",
+                          tag: "${{steps.semver.outputs.value-nopatch}}",
                           message: "semver without patch update",
                           object: context.sha,
                           tagger: {

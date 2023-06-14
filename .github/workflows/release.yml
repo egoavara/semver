@@ -55,9 +55,9 @@ jobs:
               with:
                   tag: "${{steps.semver.outputs.value-nominor}}"
                   tag_exists_error: false
-                  message: "Latest release"
+                  message: "${{steps.semver.outputs.value-nominor}} release"
             - uses: rickstaa/action-create-tag@v1
               with:
                   tag: "${{steps.semver.outputs.value-nopatch}}"
                   tag_exists_error: false
-                  message: "Latest release"
+                  message: "${{steps.semver.outputs.value-nopatch}} release"

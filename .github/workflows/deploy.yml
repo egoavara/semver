@@ -1,0 +1,71 @@
+name: Release
+
+on:
+    workflow_dispatch:
+        inputs:
+            type:
+                type: choice
+                required: true
+                default: next-patch
+                description: "Versioning type"
+                options:
+                    - "next-patch"
+                    - "next-minor"
+                    - "next-major"
+            title:
+                type: string
+                default: Auto Release
+                description: "Release title"
+            body:
+                type: string
+                default: Github Action auto released
+                description: "Release body"
+
+jobs:
+    release:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v2
+            - name: Guess semver
+              id: semver
+              uses: egoavara/semver@v0.0.1
+            - name: Create Release
+              id: create_release
+              uses: actions/create-release@v1
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                  tag_name: ${{ steps.semver.outputs.current }}
+                  release_name: "Release ${{ steps.semver.outputs.current }} : ${{ github.event.inputs.title }}"
+                  body: ${{ github.event.inputs.body }}
+                  draft: true
+            - uses: actions/github-script@v6
+              with:
+                  script: |
+                      github.rest.git.createTag({
+                          type: "commit",
+                          owner: context.repo.owner,
+                          repo: context.repo.repo,
+                          tag: "${{steps.semver.outputs.current-minor}}",
+                          message: "semver without patch update,
+                          object: context.sha,
+                          tagger: {
+                              name: context.actor,
+                              email: "",
+                              date: new Date().toISOString(),
+                          },
+                      });
+                      github.rest.git.createTag({
+                          type: "commit",
+                          owner: context.repo.owner,
+                          repo: context.repo.repo,
+                          tag: "${{steps.semver.outputs.current-major}}",
+                          message: "semver without patch update,
+                          object: context.sha,
+                          tagger: {
+                              name: context.actor,
+                              email: "",
+                              date: new Date().toISOString(),
+                          },
+                      });

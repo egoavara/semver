@@ -1,11 +1,21 @@
 name: "Sementic Versioning"
 description: "Calculate and output sementic version"
 inputs:
+    value-type:
+        description: return value type, one of current | nextpatch | nextminor | nextmajor
+        default: current
+        required: false
     github-token:
         description: The GitHub token used to create an authenticated client
         default: ${{ github.token }}
         required: false
 outputs:
+    value:
+        description: "value version, ex) v1.2.3 => v1.2.3"
+    value-nopatch:
+        description: "value minor version, ex) v1.2.3 => v1.2"
+    value-nominor:
+        description: "value major version, ex) v1.2.3 => v1"
     current:
         description: "current version, ex) v1.2.3 => v1.2.3"
     current-nopatch:

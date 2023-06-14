@@ -27,13 +27,16 @@ on:
 
 jobs:
     release:
+        permissions: write-all
         runs-on: ubuntu-latest
         steps:
             - name: Checkout
               uses: actions/checkout@v2
             - name: Guess semver
               id: semver
-              uses: egoavara/semver@v0.0.3
+              uses: egoavara/semver@v0.0.4
+              with:
+                  mode: ${{ inputs.mode }}
             - name: Create Release
               id: create_release
               uses: actions/create-release@v1

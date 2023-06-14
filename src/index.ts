@@ -8,6 +8,7 @@ function isDefined<T>(value: T | undefined | null): value is T {
 (async () => {
   const SEMVER = /v([0-9]+).([0-9]+).([0-9]+)/
   const GITHUB_TOKEN = core.getInput("github-token", { required: true, trimWhitespace: true }) ?? ""
+  const valueType = (core.getInput("value-type", { trimWhitespace: true }) ?? "current") as "current" | "nextpatch" | "nextminor" | "nextmajor"
 
   const octokit = github.getOctokit(GITHUB_TOKEN)
 
@@ -71,19 +72,42 @@ function isDefined<T>(value: T | undefined | null): value is T {
 
   core.info(`Latest version is v${latest.major}.${latest.minor}.${latest.patch}`)
   //
-  core.setOutput("current", `v${latest.major}.${latest.minor}.${latest.patch}`)
-  core.setOutput("current-nopatch", `v${latest.major}.${latest.minor}`)
-  core.setOutput("current-nominor", `v${latest.major}`)
-  // 
-  core.setOutput("nextpatch", `v${latest.major}.${latest.minor}.${latest.patch + 1}`)
-  core.setOutput("nextpatch-nopatch", `v${latest.major}.${latest.minor}`)
-  core.setOutput("nextpatch-nominor", `v${latest.major}`)
-  // 
-  core.setOutput("nextminor", `v${latest.major}.${latest.minor + 1}.0`)
-  core.setOutput("nextminor-nopatch", `v${latest.major}.${latest.minor + 1}`)
-  core.setOutput("nextminor-nominor", `v${latest.major}`)
-  // 
-  core.setOutput("nextmajor", `v${latest.major + 1}.0.0`)
-  core.setOutput("nextmajor-nopatch", `v${latest.major + 1}.0`)
-  core.setOutput("nextmajor-nominor", `v${latest.major + 1}`)
+  const values = {
+    current: {
+      main: `v${latest.major}.${latest.minor}.${latest.patch}`,
+      nopatch: `v${latest.major}.${latest.minor}`,
+      nominor: `v${latest.major}`,
+    },
+    nextpatch: {
+      main: `v${latest.major}.${latest.minor}.${latest.patch + 1}`,
+      nopatch: `v${latest.major}.${latest.minor}`,
+      nominor: `v${latest.major}`,
+    },
+    nextminor: {
+      main: `v${latest.major}.${latest.minor + 1}.0`,
+      nopatch: `v${latest.major}.${latest.minor + 1}`,
+      nominor: `v${latest.major}`,
+    },
+    nextmajor: {
+      main: `v${latest.major + 1}.0.0`,
+      nopatch: `v${latest.major + 1}.0`,
+      nominor: `v${latest.major + 1}`,
+    },
+  }
+
+  core.setOutput("value", values[valueType].main)
+  core.setOutput("value-nopatch", values[valueType].nopatch)
+  core.setOutput("value-nominor", values[valueType].nominor)
+  core.setOutput("current", values.current.main)
+  core.setOutput("current-nopatch", values.current.nopatch)
+  core.setOutput("current-nominor", values.current.nominor)
+  core.setOutput("nextpatch", values.nextpatch.main)
+  core.setOutput("nextpatch-nopatch", values.nextpatch.nopatch)
+  core.setOutput("nextpatch-nominor", values.nextpatch.nominor)
+  core.setOutput("nextminor", values.nextminor.main)
+  core.setOutput("nextminor-nopatch", values.nextminor.nopatch)
+  core.setOutput("nextminor-nominor", values.nextminor.nominor)
+  core.setOutput("nextmajor", values.nextmajor.main)
+  core.setOutput("nextmajor-nopatch", values.nextmajor.nopatch)
+  core.setOutput("nextmajor-nominor", values.nextmajor.nominor)
 })()

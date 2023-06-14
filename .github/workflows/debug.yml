@@ -1,0 +1,20 @@
+name: "debug"
+
+on:
+    workflow_dispatch:
+
+jobs:
+    debug:
+        runs-on: ubuntu-latest
+        name: debug
+        steps:
+            - name: checkout
+              uses: actions/checkout@v1
+            - name: debug
+              id: debug
+              uses: ./
+            - name: print
+              run: |
+                  cat <<EOF
+                  ${{toJson(steps.debug.outputs)}}
+                  EOF

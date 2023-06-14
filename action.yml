@@ -1,0 +1,18 @@
+name: "Sementic Versioning"
+description: "Calculate and output sementic version"
+outputs:
+    current:
+        description: "current version, ex) v1.2.3 => v1.2.3"
+    current-minor:
+        description: "current minor version, ex) v1.2.3 => v1.2"
+    current-major:
+        description: "current major version, ex) v1.2.3 => v1"
+    next-patch:
+        description: "next patch version, ex) v1.2.3 => v1.2.4"
+    next-minor:
+        description: "next minor version, ex) v1.2.3 => v1.3.0"
+    next-major:
+        description: "next major version, ex) v1.2.3 => v2.0.0"
+runs:
+    using: "node16"
+    main: "lib/index.js"

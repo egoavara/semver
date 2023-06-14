@@ -12,6 +12,10 @@ on:
                     - "next-patch"
                     - "next-minor"
                     - "next-major"
+            email:
+                type: string
+                required: true
+                description: "Release user email"
             title:
                 type: string
                 default: Auto Release
@@ -42,17 +46,18 @@ jobs:
                   draft: true
             - uses: actions/github-script@v6
               with:
+                  github-token: ${{ secrets.GITHUB_TOKEN }}
                   script: |
                       github.rest.git.createTag({
                           type: "commit",
                           owner: context.repo.owner,
                           repo: context.repo.repo,
                           tag: "${{steps.semver.outputs.current-minor}}",
-                          message: "semver without patch update,
+                          message: "semver without patch update",
                           object: context.sha,
                           tagger: {
                               name: context.actor,
-                              email: "",
+                              email: "${{inputs.email}}",
                               date: new Date().toISOString(),
                           },
                       });
@@ -61,11 +66,11 @@ jobs:
                           owner: context.repo.owner,
                           repo: context.repo.repo,
                           tag: "${{steps.semver.outputs.current-major}}",
-                          message: "semver without patch update,
+                          message: "semver without patch update",
                           object: context.sha,
                           tagger: {
                               name: context.actor,
-                              email: "",
+                              email: "${{inputs.email}}",
                               date: new Date().toISOString(),
                           },
                       });

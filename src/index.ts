@@ -7,7 +7,7 @@ function isDefined<T>(value: T | undefined | null): value is T {
 
 (async () => {
   const SEMVER = /v([0-9]+).([0-9]+).([0-9]+)/
-  const GITHUB_TOKEN = process.env.GITHUB_TOKEN ?? ""
+  const GITHUB_TOKEN = core.getInput("github-token", { required: true, trimWhitespace: true }) ?? ""
 
   const octokit = github.getOctokit(GITHUB_TOKEN)
 

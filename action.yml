@@ -2,8 +2,9 @@ name: "Sementic Versioning"
 description: "Calculate and output sementic version"
 inputs:
     github-token:
-        description: "github token required, like ${{ secrets.GITHUB_TOKEN }}"
-        required: true
+        description: The GitHub token used to create an authenticated client
+        default: ${{ github.token }}
+        required: false
 outputs:
     current:
         description: "current version, ex) v1.2.3 => v1.2.3"

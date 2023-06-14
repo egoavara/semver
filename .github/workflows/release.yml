@@ -40,7 +40,7 @@ jobs:
               id: create_release
               uses: actions/create-release@v1
               env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
               with:
                   tag_name: ${{ steps.semver.outputs.current }}
                   release_name: "Release ${{ steps.semver.outputs.current }} : ${{ github.event.inputs.title }}"
@@ -48,7 +48,7 @@ jobs:
                   draft: true
             - uses: actions/github-script@v6
               with:
-                  github-token: ${{ secrets.GITHUB_TOKEN }}
+                  github-token: "${{ secrets.GITHUB_TOKEN }}"
                   script: |
                       github.rest.git.createTag({
                           type: "commit",

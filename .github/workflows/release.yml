@@ -61,6 +61,8 @@ jobs:
                               email: "${{inputs.email}}",
                               date: new Date().toISOString(),
                           },
+                      }).then(v=>{
+                         console.log(v)
                       })
             - uses: actions/github-script@v6
               with:
@@ -77,4 +79,6 @@ jobs:
                               email: "${{inputs.email}}",
                               date: new Date().toISOString(),
                           },
+                      }).then(v=>{
+                         console.log(v)
                       })

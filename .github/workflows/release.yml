@@ -9,9 +9,9 @@ on:
                 default: next-patch
                 description: "Versioning type"
                 options:
-                    - "next-patch"
-                    - "next-minor"
-                    - "next-major"
+                    - "nextpatch"
+                    - "nextminor"
+                    - "nextmajor"
             email:
                 type: string
                 required: true
@@ -36,7 +36,7 @@ jobs:
               id: semver
               uses: egoavara/semver@v0.0.4
               with:
-                  mode: ${{ inputs.mode }}
+                  value-type: ${{ inputs.type }}
             - name: Create Release
               id: create_release
               uses: actions/create-release@v1

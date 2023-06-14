@@ -34,7 +34,7 @@ jobs:
               uses: actions/checkout@v2
             - name: Guess semver
               id: semver
-              uses: egoavara/semver@v0.0.4
+              uses: egoavara/semver@v0.0.5
               with:
                   value-type: ${{ inputs.type }}
             - name: Create Release

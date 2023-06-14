@@ -46,39 +46,18 @@ jobs:
                   tag_name: ${{ steps.semver.outputs.value }}
                   release_name: "Release ${{ steps.semver.outputs.value }} : ${{ github.event.inputs.title }}"
                   body: ${{ github.event.inputs.body }}
-            - uses: actions/github-script@v6
+            - uses: rickstaa/action-create-tag@v1
               with:
-                  script: |
-                      github.rest.git.createTag({
-                          type: "commit",
-                          owner: context.repo.owner,
-                          repo: context.repo.repo,
-                          tag: "${{steps.semver.outputs.value-nominor}}",
-                          message: "semver without patch update",
-                          object: context.sha,
-                          tagger: {
-                              name: context.actor,
-                              email: "${{inputs.email}}",
-                              date: new Date().toISOString(),
-                          },
-                      }).then(v=>{
-                         console.log(v)
-                      })
-            - uses: actions/github-script@v6
+                  tag: "latest"
+                  tag_exists_error: false
+                  message: "Latest release"
+            - uses: rickstaa/action-create-tag@v1
               with:
-                  script: |
-                      github.rest.git.createTag({
-                          type: "commit",
-                          owner: context.repo.owner,
-                          repo: context.repo.repo,
-                          tag: "${{steps.semver.outputs.value-nopatch}}",
-                          message: "semver without patch update",
-                          object: context.sha,
-                          tagger: {
-                              name: context.actor,
-                              email: "${{inputs.email}}",
-                              date: new Date().toISOString(),
-                          },
-                      }).then(v=>{
-                         console.log(v)
-                      })
+                  tag: "${{steps.semver.outputs.value-nominor}}"
+                  tag_exists_error: false
+                  message: "Latest release"
+            - uses: rickstaa/action-create-tag@v1
+              with:
+                  tag: "${{steps.semver.outputs.value-nopatch}}"
+                  tag_exists_error: false
+                  message: "Latest release"

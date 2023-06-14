@@ -46,7 +46,6 @@ jobs:
                   tag_name: ${{ steps.semver.outputs.value }}
                   release_name: "Release ${{ steps.semver.outputs.value }} : ${{ github.event.inputs.title }}"
                   body: ${{ github.event.inputs.body }}
-                  draft: true
             - uses: actions/github-script@v6
               with:
                   script: |

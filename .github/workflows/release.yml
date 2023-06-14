@@ -62,12 +62,15 @@ jobs:
                               email: "${{inputs.email}}",
                               date: new Date().toISOString(),
                           },
-                      });
+                      })
+            - uses: actions/github-script@v6
+              with:
+                  script: |
                       github.rest.git.createTag({
                           type: "commit",
                           owner: context.repo.owner,
                           repo: context.repo.repo,
-                          tag: "${{steps.semver.outputs.value-nopatch}}",
+                          tag: "${{steps.semver.outputs.value-value-nopatch}}",
                           message: "semver without patch update",
                           object: context.sha,
                           tagger: {
@@ -75,4 +78,4 @@ jobs:
                               email: "${{inputs.email}}",
                               date: new Date().toISOString(),
                           },
-                      });
+                      })

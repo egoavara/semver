@@ -72,9 +72,18 @@ function isDefined<T>(value: T | undefined | null): value is T {
   core.info(`Latest version is v${latest.major}.${latest.minor}.${latest.patch}`)
   //
   core.setOutput("current", `v${latest.major}.${latest.minor}.${latest.patch}`)
-  core.setOutput("current-minor", `v${latest.major}.${latest.minor}`)
-  core.setOutput("current-major", `v${latest.major}`)
-  core.setOutput("next-patch", `v${latest.major}.${latest.minor}.${latest.patch + 1}`)
-  core.setOutput("next-minor", `v${latest.major}.${latest.minor + 1}.0`)
-  core.setOutput("next-major", `v${latest.major + 1}.0.0`)
+  core.setOutput("current-nopatch", `v${latest.major}.${latest.minor}`)
+  core.setOutput("current-nominor", `v${latest.major}`)
+  // 
+  core.setOutput("nextpatch", `v${latest.major}.${latest.minor}.${latest.patch + 1}`)
+  core.setOutput("nextpatch-nopatch", `v${latest.major}.${latest.minor}`)
+  core.setOutput("nextpatch-nominor", `v${latest.major}`)
+  // 
+  core.setOutput("nextminor", `v${latest.major}.${latest.minor + 1}.0`)
+  core.setOutput("nextminor-nopatch", `v${latest.major}.${latest.minor + 1}`)
+  core.setOutput("nextminor-nominor", `v${latest.major}`)
+  // 
+  core.setOutput("nextmajor", `v${latest.major + 1}.0.0`)
+  core.setOutput("nextmajor-nopatch", `v${latest.major + 1}.0`)
+  core.setOutput("nextmajor-nominor", `v${latest.major + 1}`)
 })()

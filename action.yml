@@ -3,16 +3,28 @@ description: "Calculate and output sementic version"
 outputs:
     current:
         description: "current version, ex) v1.2.3 => v1.2.3"
-    current-minor:
+    current-nopatch:
         description: "current minor version, ex) v1.2.3 => v1.2"
-    current-major:
+    current-nominor:
         description: "current major version, ex) v1.2.3 => v1"
-    next-patch:
+    nextpatch:
         description: "next patch version, ex) v1.2.3 => v1.2.4"
-    next-minor:
+    nextpatch-nopatch:
+        description: "next patch version, ex) v1.2.3 => v1.2"
+    nextpatch-nominor:
+        description: "next patch version, ex) v1.2.3 => v1"
+    nextminor:
         description: "next minor version, ex) v1.2.3 => v1.3.0"
-    next-major:
+    nextminor-nopatch:
+        description: "next minor version, ex) v1.2.3 => v1.3"
+    nextminor-nominor:
+        description: "next minor version, ex) v1.2.3 => v1"
+    nextmajor:
         description: "next major version, ex) v1.2.3 => v2.0.0"
+    nextmajor-nopatch:
+        description: "next major version, ex) v1.2.3 => v2.0"
+    nextmajor-nominor:
+        description: "next major version, ex) v1.2.3 => v2"
 runs:
     using: "node16"
     main: "lib/index.js"

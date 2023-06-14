@@ -12,10 +12,6 @@ on:
                     - "nextpatch"
                     - "nextminor"
                     - "nextmajor"
-            email:
-                type: string
-                required: true
-                description: "Release user email"
             title:
                 type: string
                 default: Auto Release

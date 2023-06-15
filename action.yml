@@ -1,13 +1,25 @@
 name: "Sementic Versioning"
 description: "Calculate and output sementic version"
 inputs:
+    github-token:
+        description: The GitHub token used to create an authenticated client
+        default: ${{ github.token }}
+        required: false
     value-type:
         description: return value type, one of current | nextpatch | nextminor | nextmajor
         default: current
         required: false
-    github-token:
-        description: The GitHub token used to create an authenticated client
-        default: ${{ github.token }}
+    release:
+        description: "release process using github release and git one of value : no | prerelease | release"
+        default: "no"
+        required: false
+    release-name:
+        description: "if release enabled, it used for release name"
+        default: "Release <<version>>"
+        required: false
+    release-body:
+        description: "if release enabled, it used for release body"
+        default: ""
         required: false
 outputs:
     value:

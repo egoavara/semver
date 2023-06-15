@@ -14,6 +14,8 @@ jobs:
               id: debug
               uses: ./
               with:
+                  release: release
+                  value-type: nextpatch
                   github-token: ${{secrets.GITHUB_TOKEN}}
             - name: print
               run: |

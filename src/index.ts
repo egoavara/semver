@@ -9,6 +9,9 @@ function isDefined<T>(value: T | undefined | null): value is T {
   const SEMVER = /v([0-9]+).([0-9]+).([0-9]+)/
   const GITHUB_TOKEN = core.getInput("github-token", { required: true, trimWhitespace: true }) ?? ""
   const valueType = (core.getInput("value-type", { trimWhitespace: true }) ?? "current") as "current" | "nextpatch" | "nextminor" | "nextmajor"
+  const release = (core.getInput("release", { trimWhitespace: true }) ?? "current") as "no" | "prerelease" | "release"
+  const releaseName = core.getInput("release-name")
+  const releaseBody = core.getInput("release-body")
 
   const octokit = github.getOctokit(GITHUB_TOKEN)
 
@@ -94,6 +97,46 @@ function isDefined<T>(value: T | undefined | null): value is T {
       nominor: `v${latest.major + 1}`,
     },
   }
+  if (["release", "prerelease"].includes(release)) {
+    core.info(`create tag : ${values[valueType].main}`)
+    await octokit.rest.git.createTag({
+      type: "commit",
+      tag: values[valueType].main,
+      message: "github action egoavara/semver release this tag",
+      owner: github.context.repo.owner,
+      repo: github.context.repo.repo,
+      object: github.context.sha,
+    })
+    core.info(`create no patch tag : ${values[valueType].nopatch}`)
+    await octokit.rest.git.createTag({
+      type: "commit",
+      tag: values[valueType].nopatch,
+      message: "github action egoavara/semver release this tag",
+      owner: github.context.repo.owner,
+      repo: github.context.repo.repo,
+      object: github.context.sha,
+    })
+    core.info(`create no minor tag : ${values[valueType].nominor}`)
+    await octokit.rest.git.createTag({
+      type: "commit",
+      tag: values[valueType].nominor,
+      message: "github action egoavara/semver release this tag",
+      owner: github.context.repo.owner,
+      repo: github.context.repo.repo,
+      object: github.context.sha,
+    })
+    core.info(`create release, and tag : ${values[valueType].main}`)
+    await octokit.rest.repos.createRelease({
+      tag_name: values[valueType].main,
+      owner: github.context.repo.owner,
+      repo: github.context.repo.repo,
+      target_commitish: github.context.sha,
+      name: releaseName.replace("<<version>>", values[valueType].main),
+      body: releaseBody,
+      prerelease: release === "prerelease",
+    })
+  }
+
 
   core.setOutput("value", values[valueType].main)
   core.setOutput("value-nopatch", values[valueType].nopatch)

@@ -107,24 +107,6 @@ function isDefined<T>(value: T | undefined | null): value is T {
       repo: github.context.repo.repo,
       object: github.context.sha,
     })
-    core.info(`create no patch tag : ${values[valueType].nopatch}`)
-    await octokit.rest.git.createTag({
-      type: "commit",
-      tag: values[valueType].nopatch,
-      message: "github action egoavara/semver release this tag",
-      owner: github.context.repo.owner,
-      repo: github.context.repo.repo,
-      object: github.context.sha,
-    })
-    core.info(`create no minor tag : ${values[valueType].nominor}`)
-    await octokit.rest.git.createTag({
-      type: "commit",
-      tag: values[valueType].nominor,
-      message: "github action egoavara/semver release this tag",
-      owner: github.context.repo.owner,
-      repo: github.context.repo.repo,
-      object: github.context.sha,
-    })
     core.info(`create release, and tag : ${values[valueType].main}`)
     await octokit.rest.repos.createRelease({
       tag_name: values[valueType].main,
